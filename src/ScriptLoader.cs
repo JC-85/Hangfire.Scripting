@@ -21,7 +21,7 @@ namespace Hangfire.Scripting
         public string CheckPred => "Pred Working";
     }
 
-    public class ScriptWathcer
+    public class ScriptWatcher
     {
         public static void Watch(string path)
         {
@@ -31,9 +31,7 @@ namespace Hangfire.Scripting
         {
             System.IO.FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(folder.FullName);
             fileSystemWatcher.Changed += (o, e) => {
-
                 BackgroundJob.Enqueue<ScriptLoader>((s) => s.UpdateScript(null, e.FullPath));
-                System.Console.WriteLine("TEST " + e.ChangeType.ToString());
             };
             fileSystemWatcher.EnableRaisingEvents = true;
         }

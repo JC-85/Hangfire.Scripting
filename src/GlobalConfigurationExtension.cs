@@ -60,7 +60,7 @@ namespace Hangfire.Scripting
             DashboardRoutes.Routes.AddRazorPage($"{ManagementPage.UrlRoute}/{pageInfo.MenuName}", x => new ManagementBasePage(pageInfo, Jobs));
         }
 
-        public static void UseHangfireScripting(this IGlobalConfiguration config, ScriptingOptions options = null,  Assembly assembly = null)
+        public static IGlobalConfiguration UseScripting(this IGlobalConfiguration config, ScriptingOptions options = null,  Assembly assembly = null)
         {
             Options = options;
             DirectoryInfo scriptPath;
@@ -76,7 +76,7 @@ namespace Hangfire.Scripting
             var loader = new ScriptLoader();
             loader.LoadScripts(scriptPath.FullName);
 
-            ScriptWathcer.Watch(scriptPath);
+            ScriptWatcher.Watch(scriptPath);
 
             if (assembly == null) assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
@@ -102,6 +102,8 @@ namespace Hangfire.Scripting
             NavigationMenu.Items.Add(f);
 
             //ManagementBasePage.Jobs.AddRange(Jobs);
+
+            return config;
         }
     }
 }
